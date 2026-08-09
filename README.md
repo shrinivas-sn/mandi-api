@@ -188,6 +188,12 @@ In your GitHub repository under **Settings → Secrets and variables → Actions
 
 ---
 
+## 🤝 Contributing
+
+Community contributions (new states, bug fixes, docs) are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md) for setup, coding conventions, and the PR process.
+
+---
+
 ## 📄 License
 
 This project is licensed under CC BY-NC-SA 4.0 — you're free to use, modify, and learn from this code for personal and non-commercial projects, with attribution. Commercial use or launching a competing paid service using this code is not permitted without permission. See [LICENSE](LICENSE) for details.
