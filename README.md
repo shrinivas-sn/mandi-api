@@ -86,7 +86,7 @@ mandi-api/
 
 ### 1. Database Setup (Supabase)
 
-Copy and execute [`backend/schema.sql`](file:///e:/mandi-api/backend/schema.sql) in your [Supabase SQL Editor](https://supabase.com/dashboard):
+Copy and execute [`backend/schema.sql`](backend/schema.sql) in your [Supabase SQL Editor](https://supabase.com/dashboard):
 
 ```sql
 CREATE TABLE IF NOT EXISTS mandi_prices (
@@ -182,7 +182,7 @@ All endpoints are prefixed with `/v1`:
 
 In your GitHub repository under **Settings → Secrets and variables → Actions**, add:
 
-- `SUPABASE_URL`: Your Supabase Project URL (`https://msdegzurpcbtaumdlmqc.supabase.co`)
+- `SUPABASE_URL`: Your Supabase Project URL (`https://xxxx.supabase.co`)
 - `SUPABASE_SERVICE_KEY`: Your Supabase Service Role API Key
 - `DATA_GOV_API_KEY`: `<YOUR_DATA_GOV_API_KEY>`
 
