@@ -16,12 +16,21 @@ const distDir = join(__dirname, '..', 'dist');
 // about the other.
 const ALL_ROUTES = [...ROUTES, BLOG_INDEX_ROUTE, ...BLOG_POSTS];
 
+// Google indexes the phone version of a page; Puppeteer defaults to 800x600.
+const VIEWPORT = { width: 390, height: 844 };
+
+// No route matches this path, so App's catch-all route renders NotFoundPage.
+const NOT_FOUND_PROBE = '/__not-found__';
+
 function writeSitemap() {
-  const urls = ALL_ROUTES.map(({ path, changefreq, priority }) => `  <url>
-    <loc>${SITE_URL}${path}</loc>
-    <changefreq>${changefreq}</changefreq>
-    <priority>${priority}</priority>
-  </url>`).join('\n');
+  const urls = ALL_ROUTES.map(({ path, date, changefreq, priority }) => [
+    '  <url>',
+    `    <loc>${SITE_URL}${path}</loc>`,
+    date && `    <lastmod>${date}</lastmod>`,
+    `    <changefreq>${changefreq}</changefreq>`,
+    `    <priority>${priority}</priority>`,
+    '  </url>'
+  ].filter(Boolean).join('\n')).join('\n');
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
   writeFileSync(join(distDir, 'sitemap.xml'), xml);
@@ -34,9 +43,10 @@ function writeRobotsTxt() {
   console.log('Generated robots.txt');
 }
 
-async function prerenderRoute(browser, base, route) {
+async function prerenderRoute(browser, base, route, outFile) {
   const page = await browser.newPage();
   try {
+    await page.setViewport(VIEWPORT);
     // The backend can take 30-40s to wake from a cold start (see the
     // "waking up" copy in PlaygroundPage.jsx/HomePage.jsx), so this needs
     // real headroom beyond that, not just Puppeteer's 30s default.
@@ -46,21 +56,23 @@ async function prerenderRoute(browser, base, route) {
     await page.waitForFunction(() => !document.querySelector('.spin'), { timeout: 10000 }).catch(() => {});
 
     const html = await page.content();
-    const outDir = route === '/' ? distDir : join(distDir, route.slice(1));
-    mkdirSync(outDir, { recursive: true });
-    writeFileSync(join(outDir, 'index.html'), html);
+    mkdirSync(dirname(outFile), { recursive: true });
+    writeFileSync(outFile, html);
 
-    console.log(`Prerendered ${route} -> ${join(outDir, 'index.html')}`);
+    console.log(`Prerendered ${route} -> ${outFile}`);
   } finally {
     await page.close();
   }
 }
 
 async function main() {
-  const server = await preview({ preview: { port: 4173, strictPort: true } });
-  const base = server.resolvedUrls.local[0];
-
+  // preview() sits inside the try: a port clash on 4173 must not skip the
+  // sitemap and robots.txt writes below, which need no browser.
+  let server = null;
   try {
+    server = await preview({ preview: { port: 4173, strictPort: true } });
+    const base = server.resolvedUrls.local[0];
+
     // Vercel's build container is a stripped-down environment missing the
     // shared libraries (libnspr4.so etc.) puppeteer's bundled Chrome needs
     // to launch. @sparticuz/chromium ships a Chrome build made for exactly
@@ -87,11 +99,17 @@ async function main() {
       // timeout) shouldn't take the rest of the build down with it — the
       // route just keeps vite build's plain SPA shell instead of a
       // prerendered snapshot, and the build still succeeds.
-      for (const route of ALL_ROUTES) {
+      // A failed route gets no file, and verify-seo then fails the build
+      // naming it. The 404 page goes last so no route loads it.
+      const targets = [
+        ...ALL_ROUTES.map((r) => [r.path, r.path === '/' ? join(distDir, 'index.html') : join(distDir, r.path.slice(1), 'index.html')]),
+        [NOT_FOUND_PROBE, join(distDir, '404.html')]
+      ];
+      for (const [route, outFile] of targets) {
         try {
-          await prerenderRoute(browser, base, route.path);
+          await prerenderRoute(browser, base, route, outFile);
         } catch (err) {
-          console.error(`Failed to prerender ${route.path}, leaving SPA shell in place:`, err.message);
+          console.error(`Failed to prerender ${route}:`, err.message);
         }
       }
     } finally {
@@ -105,7 +123,7 @@ async function main() {
     // don't fail the whole deploy over it.
     console.error('Prerendering failed, shipping plain SPA build instead:', err.message);
   } finally {
-    await new Promise((resolve) => server.httpServer.close(resolve));
+    if (server) await new Promise((resolve) => server.httpServer.close(resolve));
   }
 
   // Independent of whether prerendering succeeded — these are pure

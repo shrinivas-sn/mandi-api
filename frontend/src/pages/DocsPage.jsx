@@ -108,9 +108,9 @@ export default function DocsPage() {
       {/* Main Documentation Content */}
       <main style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
         <div>
-          <h2 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '0.3rem' }}>
+          <h1 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '0.3rem' }}>
             API Documentation (v1)
-          </h2>
+          </h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
             Complete reference for endpoints, query parameters, response envelopes, and rate limits.
           </p>
