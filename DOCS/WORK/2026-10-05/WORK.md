@@ -13,6 +13,7 @@ Fetch origin, compare with local `main`, merge, push, and delete the finished SE
 - `redesign-seo-mobile` was local-only and already contained in `origin/main`; deleted with `git branch -d`.
 - `gh pr list --state all` returned no PRs for this repo. The PR may have been under the old `shrinusn-2` account.
 - Added `DOCS/STATUS.md`, this entry, and `CONTEXT/DECISIONS.md` to complete the docs structure.
+- Updated `CONTEXT/FRONTEND.md` for the 404 page, `verify-seo.mjs` and the removed `vercel.json`.
 
 ## Notes
 - The merge left a merge commit rather than linear history. Rewriting it would need a force-push.

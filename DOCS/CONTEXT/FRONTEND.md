@@ -14,7 +14,7 @@ This document details the complete frontend application architecture, design sys
 - **Icons**: `lucide-react`
 - **Charts**: `chart.js` + `react-chartjs-2`
 - **Fonts**: Big Shoulders Display (headings), IBM Plex Sans (body), JetBrains Mono (data/code)
-- **Deployment Target**: Vercel (SPA routing via `vercel.json`; static files/prerendered routes are served before the SPA rewrite applies)
+- **Deployment Target**: Vercel. There is no `vercel.json`: prerendered routes are static files, and unknown URLs get the prerendered `dist/404.html`
 
 ---
 
@@ -24,7 +24,8 @@ This document details the complete frontend application architecture, design sys
 frontend/
 ├── public/
 ├── scripts/
-│   └── prerender.js            # Postbuild: prerenders each route to static HTML, generates sitemap.xml/robots.txt
+│   ├── prerender.js            # Postbuild: prerenders each route (and the 404 page) to static HTML, generates sitemap.xml/robots.txt
+│   └── verify-seo.mjs          # Postbuild: checks the built HTML/sitemap/robots for SEO errors; any error fails the build
 ├── src/
 │   ├── components/
 │   │   ├── Navbar.jsx          # Top nav; collapses to a hamburger menu below 720px (hamburger + StatusBadge share a `.nav-right-cluster` flex group so they render together, not centered)
@@ -43,7 +44,7 @@ frontend/
 │   │   ├── PlaygroundPage.jsx  # High-density split console (no vertical scrolling)
 │   │   ├── DocsPage.jsx        # Complete API reference documentation with IntersectionObserver ScrollSpy
 │   │   ├── StatusPage.jsx      # System status & operational metrics dashboard
-│   │   ├── NotFoundPage.jsx    # 404 page for the `*` route, marked noindex
+│   │   ├── NotFoundPage.jsx    # 404 page for the `*` route, marked noindex; prerendered to dist/404.html
 │   │   └── blog/
 │   │       ├── BlogIndexPage.jsx   # /blog — lists all posts from blogRoutes.js
 │   │       ├── BlogPostPage.jsx    # /blog/:slug — looks up the post component by slug, renders via BlogPostLayout
@@ -57,8 +58,7 @@ frontend/
 │   ├── main.jsx                # React DOM entry point (wraps App in BrowserRouter + HelmetProvider)
 │   └── index.css               # Design system tokens, micro-animations & resets
 ├── vite.config.js              # Vite bundler & dev server proxy config
-├── vercel.json                 # Vercel SPA rewrite rule (/index.html) — only applies when no static file matches
-└── package.json                 # postbuild script runs scripts/prerender.js after `vite build`
+└── package.json                 # postbuild runs scripts/prerender.js, then scripts/verify-seo.mjs --dist dist, after `vite build`
 ```
 
 ---
@@ -67,8 +67,9 @@ frontend/
 
 ### Routing & SEO (`routes.js`, `blogRoutes.js`, `Seo.jsx`, `scripts/prerender.js`)
 - `routes.js` is the single source of truth for the 4 core app routes — path, nav label, SEO title/description, and sitemap `changefreq`/`priority`. `App.jsx` and `Navbar.jsx` both derive from it, so adding a route only means editing this one file.
-- `Seo.jsx` is a shared `<Helmet>` wrapper each page calls with its title/description/path (and optional `structuredData`/`noindex`); collapses what used to be a repeated 10-line block per page. Also sets `og:site_name` on every page — added specifically because Google was displaying "Vercel" instead of "Mandi Price API" as the SERP site name (no `og:site_name` + no `Organization` entity for it to attribute the site to).
-- `scripts/prerender.js` runs as an npm `postbuild` step after `vite build`: it launches a headless Chrome (via `puppeteer` locally, `@sparticuz/chromium` on Vercel — see §4), visits each route on a local `vite preview` server (now `ROUTES` + `BLOG_INDEX_ROUTE` + `BLOG_POSTS` combined), and writes the fully-rendered HTML to `dist/<route>/index.html` so crawlers get real content instead of an empty shell. It also generates `dist/sitemap.xml` and `dist/robots.txt` from the combined route list + `SITE_URL`. Each route prerenders independently (a single failure doesn't fail the build), and if Chrome can't launch at all, the script logs it and still ships the plain `vite build` SPA output rather than blocking the deploy.
+- `Seo.jsx` is a shared `<Helmet>` wrapper each page calls with its title/description/path (and optional `structuredData`/`noindex`); it also emits `og:image` and `twitter:image` (`/logo.png` on `SITE_URL`) on every page; collapses what used to be a repeated 10-line block per page. Also sets `og:site_name` on every page — added specifically because Google was displaying "Vercel" instead of "Mandi Price API" as the SERP site name (no `og:site_name` + no `Organization` entity for it to attribute the site to).
+- `scripts/prerender.js` runs as an npm `postbuild` step after `vite build`: it launches a headless Chrome (via `puppeteer` locally, `@sparticuz/chromium` on Vercel — see §4), visits each route on a local `vite preview` server (now `ROUTES` + `BLOG_INDEX_ROUTE` + `BLOG_POSTS` combined), and writes the fully-rendered HTML to `dist/<route>/index.html` so crawlers get real content instead of an empty shell. It also generates `dist/sitemap.xml` and `dist/robots.txt` from the combined route list + `SITE_URL`. Routes are rendered at a 390x844 phone viewport (Google indexes the phone version), and sitemap entries carry `<lastmod>` from blog post dates. After all routes, it loads a path no route matches (`/__not-found__`) so the catch-all renders `NotFoundPage`, and saves that as `dist/404.html`. Each route prerenders independently; a failed route gets no file, and `verify-seo.mjs` then fails the build naming it. If Chrome can't launch at all, the script logs it and still writes `sitemap.xml` and `robots.txt`.
+- `scripts/verify-seo.mjs` runs right after prerender (`node scripts/verify-seo.mjs --dist dist`; `--live <url>` checks a deployed site, `--report-only` never fails). **Errors fail the build:** missing or duplicate title/description/canonical/OG/Twitter tags, canonical not matching the page, `og:url` differing from canonical, relative `og:image`/`twitter:image`, `noindex` on a sitemap page, invalid JSON-LD. **Warnings don't:** title over 60 characters, description outside 50-160, `<h1>` count not 1, missing `lang`, large images, sitemap URLs without `<lastmod>`. One description per page matters here: `index.html` no longer carries a meta description, because Helmet never removed it and every page shipped two.
 
 ### Blog (`blogRoutes.js`, `pages/blog/`)
 - Added to target real search terms the site wasn't ranking for at all (it previously only surfaced for its own exact name). `blogRoutes.js` mirrors `routes.js`'s JSX-free pattern so it can be imported the same way by `prerender.js` under plain Node.
@@ -121,14 +122,6 @@ frontend/
   - Local Development: Defaults to `http://localhost:3000`.
   - Production (Vercel): Reads `VITE_API_URL` environment variable (e.g. `https://mandi-api.onrender.com`).
   - `SITE_URL` works the same way via `VITE_SITE_URL` (e.g. `https://mandi-api.vercel.app`) — used for canonical tags, OG tags, `sitemap.xml`, and `robots.txt`. `config.js` checks both `import.meta.env` (Vite) and `process.env` (plain Node), since `scripts/prerender.js` imports it outside the Vite pipeline.
-- **SPA Routing Rewrite** (`vercel.json`):
-  ```json
-  {
-    "rewrites": [
-      { "source": "/(.*)", "destination": "/index.html" }
-    ]
-  }
-  ```
-  Static files (including the prerendered `dist/<route>/index.html` files) are served before this rewrite runs — confirmed against Vercel's routing precedence — so this rewrite only acts as the SPA fallback for paths without a prerendered snapshot.
+- **404 handling**: there is no `vercel.json` and no catch-all rewrite. A catch-all rewrite to `/index.html` served the homepage with a 200 for unknown URLs, so it was removed. Vercel serves `dist/404.html` (the prerendered `NotFoundPage`) for paths with no file. Client-side navigation still uses the router's `*` route.
 - **Prerendering on Vercel**: Vercel's build container is missing the shared libraries (`libnspr4.so` etc.) puppeteer's default bundled Chrome needs. `scripts/prerender.js` detects `process.env.VERCEL` and uses `@sparticuz/chromium` (a Chrome build made for serverless/build containers) in that case; local dev keeps using puppeteer's own Chrome unchanged.
 - **Google Search Console verification**: `public/google<id>.html` is the GSC ownership-verification file (static, served as-is at the site root by Vercel) — required once to add the site to Search Console and submit `sitemap.xml`. Not app functionality; safe to ignore/leave in place.
