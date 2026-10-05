@@ -171,7 +171,7 @@ export default function PlaygroundPage() {
       {/* Compact Header Bar */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem' }}>
         <div>
-          <h2 style={{ fontSize: '1.6rem', fontWeight: 800 }}>API Interactive Console</h2>
+          <h1 style={{ fontSize: '1.6rem', fontWeight: 800 }}>API Interactive Console</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem' }}>Build requests, inspect JSON payloads, plot price charts, and copy code</p>
         </div>
         <StatusBadge />

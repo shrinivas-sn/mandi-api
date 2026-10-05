@@ -39,7 +39,7 @@ export default function StatusPage() {
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
-          <h2 style={{ fontSize: '2rem', fontWeight: 800 }}>Service Health & Status</h2>
+          <h1 style={{ fontSize: '2rem', fontWeight: 800 }}>Service Health & Status</h1>
           <p style={{ color: 'var(--text-secondary)' }}>Live latency, data pipelines, and infrastructure specs for Mandi Price API</p>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
