@@ -37,12 +37,12 @@ export function daysSinceArrival(dateStr) {
   return Number.isNaN(diff) ? null : Math.round(diff);
 }
 
-export function formatArrivalDate(dateStr) {
+export function formatArrivalDate(dateStr, { withYear = true } = {}) {
   if (!dateStr) return null;
   return new Date(`${dateStr}T00:00:00Z`).toLocaleDateString('en-IN', {
     timeZone: 'UTC',
     day: 'numeric',
     month: 'short',
-    year: 'numeric'
+    ...(withYear ? { year: 'numeric' } : {})
   });
 }

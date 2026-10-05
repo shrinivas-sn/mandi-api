@@ -28,6 +28,8 @@ export default function DataFreshness() {
   if (!isStaleArrival(newestDate)) return null;
 
   const label = `Prices as of ${formatArrivalDate(newestDate)}`;
+  const shortDate = formatArrivalDate(newestDate, { withYear: false });
+  const shortLabel = `Prices ${shortDate}`;
 
   return (
     <NavLink
@@ -42,7 +44,10 @@ export default function DataFreshness() {
       }}
     >
       <div className="status-dot" style={{ backgroundColor: 'var(--status-warn)', boxShadow: 'none', animation: 'none' }} />
-      <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>{label}</span>
+      {/* index.css shows one label, picked by the navbar's fit mode */}
+      <span className="freshness-long" style={{ fontSize: '0.85rem', fontWeight: 600 }}>{label}</span>
+      <span className="freshness-short" style={{ fontSize: '0.8rem', fontWeight: 600 }}>{shortLabel}</span>
+      <span className="freshness-date" style={{ fontSize: '0.8rem', fontWeight: 600 }}>{shortDate}</span>
     </NavLink>
   );
 }

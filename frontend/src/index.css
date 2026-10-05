@@ -115,6 +115,15 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
+}
+
+/* Blocks keep their natural width so Navbar.jsx can measure real overflow
+   and switch layout, instead of text wrapping into a taller header */
+.nav-container > *,
+.nav-right-cluster > * {
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .logo {
@@ -167,65 +176,71 @@ button {
   gap: 0.6rem;
 }
 
-@media (max-width: 720px) {
-  .nav-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .nav-links {
-    display: none;
-  }
-
-  .nav-links.open {
-    display: flex;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    margin-top: 0.5rem;
-    flex-direction: column;
-    align-items: stretch;
-    background: var(--bg-card-hover);
-    border-radius: 12px;
-    padding: 0.5rem;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
-  }
-
-  .nav-links.open .nav-link {
-    text-align: left;
-    width: 100%;
-  }
-}
-
-/* Stale-data pill is a link, so keep it tappable when it shrinks to a dot */
-.data-freshness-pill {
-  min-height: 32px;
-  min-width: 32px;
+/* Collapsed navbar (set by Navbar.jsx when the link row does not fit): hamburger menu */
+.nav-collapsed .nav-toggle {
+  display: flex;
+  align-items: center;
   justify-content: center;
 }
 
-/* Stale-data pill: dot only until the navbar has room for its date */
-@media (max-width: 1100px) {
-  .data-freshness-pill span {
-    display: none;
-  }
-
-  .data-freshness-pill {
-    padding: 0.4rem;
-  }
+.nav-collapsed .nav-links {
+  display: none;
 }
 
-/* Tablet widths show the full link row, so the status pills drop to dots like on phones */
-@media (min-width: 721px) and (max-width: 960px) {
-  .status-pill span {
-    display: none;
-  }
+.nav-collapsed .nav-links.open {
+  display: flex;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 0.5rem;
+  flex-direction: column;
+  align-items: stretch;
+  background: var(--bg-card-hover);
+  border-radius: 12px;
+  padding: 0.5rem;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
 
-  .status-pill {
-    padding: 0.4rem;
-  }
+.nav-collapsed .nav-links.open .nav-link {
+  text-align: left;
+  width: 100%;
+}
+
+/* Stale-data pill is a link, so keep it tappable in every mode */
+.status-pill.data-freshness-pill {
+  min-height: 32px;
+  padding: 0.4rem 0.75rem;
+}
+
+/* One label per navbar mode: full date, short "Prices <date>", or the date alone.
+   Class pairs outrank the phone rule that hides .status-pill text. */
+.data-freshness-pill .freshness-long,
+.data-freshness-pill .freshness-short,
+.data-freshness-pill .freshness-date {
+  display: none;
+}
+
+.nav-mode-wide .data-freshness-pill .freshness-long,
+.nav-mode-links .data-freshness-pill .freshness-short,
+.nav-mode-menu .data-freshness-pill .freshness-short,
+.nav-mode-tight .data-freshness-pill .freshness-date {
+  display: inline;
+}
+
+.nav-mode-tight .data-freshness-pill .status-dot {
+  display: none;
+}
+
+/* API status shown inside the open phone menu, below the links */
+.nav-menu-status {
+  padding: 0.6rem 0.5rem 0.2rem;
+  margin-top: 0.3rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.nav-menu-status .status-pill span {
+  display: inline;
 }
 
 @media (max-width: 480px) {
