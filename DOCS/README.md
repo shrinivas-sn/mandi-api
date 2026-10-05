@@ -10,7 +10,7 @@ the only format that sorts correctly on disk and in `git log`.
 
 | Date | Summary | Status | Load-bearing | Touches | Continues |
 |---|---|---|---|---|---|
-| 05/10/2026 | Merged SEO branch work into `main`, deleted the branch, added STATUS and DECISIONS | done | yes | `frontend/scripts/`, `frontend/src/components/Seo.jsx`, `DOCS/` | — |
+| 05/10/2026 | Merged SEO branch work into `main`, added STATUS and DECISIONS; found ingest silently failing since 25/09 (data.gov.in outage), made it fail loudly, added stale-data UI, fixed mobile overflow | active | yes | `frontend/scripts/`, `frontend/src/`, `backend/scripts/ingest.js`, `seo/`, `DOCS/` | — |
 
 See `STATUS.md` for where things stand and `CONTEXT/` for architecture,
 backend/frontend design, build-spec docs, and the decisions log.

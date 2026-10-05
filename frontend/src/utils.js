@@ -15,6 +15,20 @@ export function formatIngestionTime(isoString) {
   }
 }
 
+// Mandis report with a lag, so only flag data older than this
+export const STALE_AFTER_DAYS = 3;
+
+// Newest arrival_date (YYYY-MM-DD) in a /v1/prices response, or null
+export function newestArrivalDate(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) return null;
+  return rows.reduce((max, r) => (r.arrival_date > max ? r.arrival_date : max), '') || null;
+}
+
+export function isStaleArrival(dateStr) {
+  const days = daysSinceArrival(dateStr);
+  return days != null && days > STALE_AFTER_DAYS;
+}
+
 // Whole days between a YYYY-MM-DD arrival date and today in IST
 export function daysSinceArrival(dateStr) {
   if (!dateStr) return null;

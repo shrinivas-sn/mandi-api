@@ -7,10 +7,7 @@ import AiSpecButton from '../components/AiSpecButton';
 import Seo from '../components/Seo';
 import { API_BASE_URL, SITE_URL, SUPPORTED_STATES } from '../config';
 import { ROUTES } from '../routes';
-import { formatIngestionTime, daysSinceArrival, formatArrivalDate } from '../utils';
-
-// Mandis report with a lag, so only flag data older than this
-const STALE_AFTER_DAYS = 3;
+import { formatIngestionTime, newestArrivalDate, isStaleArrival, formatArrivalDate } from '../utils';
 
 const { title: PAGE_TITLE, description: PAGE_DESCRIPTION } = ROUTES.find((r) => r.path === '/');
 
@@ -87,11 +84,8 @@ export default function HomePage() {
   const latestIngestTime = demoData?.meta?.latest_fetched_at ? formatIngestionTime(demoData.meta.latest_fetched_at) : null;
   const boardRows = demoData?.success ? demoData.data.slice(0, 6) : [];
   const recordCount = demoData?.success ? demoData.meta?.count ?? demoData.data.length : null;
-  const newestArrival = demoData?.success && demoData.data.length > 0
-    ? demoData.data.reduce((max, r) => (r.arrival_date > max ? r.arrival_date : max), '')
-    : null;
-  const staleDays = daysSinceArrival(newestArrival);
-  const isStale = staleDays != null && staleDays > STALE_AFTER_DAYS;
+  const newestArrival = demoData?.success ? newestArrivalDate(demoData.data) : null;
+  const isStale = isStaleArrival(newestArrival);
 
   return (
     <div style={{ padding: '3rem 0' }}>

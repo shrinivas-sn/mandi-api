@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import StatusBadge from './StatusBadge';
+import DataFreshness from './DataFreshness';
 import { ROUTES } from '../routes';
 
 export default function Navbar() {
@@ -26,7 +27,7 @@ export default function Navbar() {
           </div>
           <div>
             <span>Mandi<span style={{ color: 'var(--accent-gold)' }}>API</span></span>
-            <span className="logo-subtitle" style={{ fontSize: '0.75rem', display: 'block', color: 'var(--text-muted)', fontWeight: 500, lineHeight: 1 }}>
+            <span className="logo-subtitle" style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 500, lineHeight: 1 }}>
               v1 / Open Ag-Data
             </span>
           </div>
@@ -59,6 +60,7 @@ export default function Navbar() {
             {menuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
 
+          <DataFreshness />
           <StatusBadge />
         </div>
       </div>

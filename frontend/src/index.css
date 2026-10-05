@@ -76,6 +76,8 @@ button {
 }
 
 .container {
+  /* Auto margins stop a flex item stretching; without width:100% <main> grows to its widest content */
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem;
@@ -123,6 +125,11 @@ button {
   font-weight: 800;
   color: #fff;
   letter-spacing: -0.02em;
+}
+
+/* Display lives here, not inline, so the phone breakpoint can hide it */
+.logo-subtitle {
+  display: block;
 }
 
 .logo-icon {
@@ -189,6 +196,35 @@ button {
   .nav-links.open .nav-link {
     text-align: left;
     width: 100%;
+  }
+}
+
+/* Stale-data pill is a link, so keep it tappable when it shrinks to a dot */
+.data-freshness-pill {
+  min-height: 32px;
+  min-width: 32px;
+  justify-content: center;
+}
+
+/* Stale-data pill: dot only until the navbar has room for its date */
+@media (max-width: 1100px) {
+  .data-freshness-pill span {
+    display: none;
+  }
+
+  .data-freshness-pill {
+    padding: 0.4rem;
+  }
+}
+
+/* Tablet widths show the full link row, so the status pills drop to dots like on phones */
+@media (min-width: 721px) and (max-width: 960px) {
+  .status-pill span {
+    display: none;
+  }
+
+  .status-pill {
+    padding: 0.4rem;
   }
 }
 
@@ -319,12 +355,15 @@ button {
   justify-content: space-between;
   align-items: center;
   background: rgba(0, 0, 0, 0.3);
+  flex-wrap: wrap;
+  gap: 0.4rem;
   padding: 0.6rem 1rem;
   border-bottom: 1px solid var(--border-subtle);
 }
 
 .code-tabs {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.4rem;
 }
 
@@ -402,26 +441,27 @@ button {
 /* Fixed-width sidebar/column grids used on Docs & Playground */
 .sidebar-grid {
   display: grid;
-  grid-template-columns: 220px 1fr;
+  grid-template-columns: 220px minmax(0, 1fr);
   gap: 1.5rem;
   align-items: start;
 }
 
 .console-grid {
   display: grid;
-  grid-template-columns: 360px 1fr;
+  grid-template-columns: 360px minmax(0, 1fr);
   gap: 1.25rem;
   align-items: start;
+}
+
+/* Let the content column shrink below its widest code line instead of widening the page */
+.sidebar-grid > *,
+.console-grid > * {
+  min-width: 0;
 }
 
 @media (max-width: 768px) {
   .sidebar-grid, .console-grid {
     grid-template-columns: minmax(0, 1fr);
-  }
-
-  .sidebar-grid > *,
-  .console-grid > * {
-    min-width: 0;
   }
 }
 
@@ -556,6 +596,8 @@ button {
   padding: 0.1rem 0.4rem;
   font-size: 0.9em;
   color: var(--accent-gold);
+  /* Long URLs in inline code break instead of widening the page on phones */
+  overflow-wrap: anywhere;
 }
 
 .article-body .code-box {
