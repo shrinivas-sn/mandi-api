@@ -19,12 +19,11 @@ Project: `E:\mandi-api` (repo `shrinivas-sn/mandi-api`, branch `main`). Last upd
 - Architecture and build docs are in `DOCS/CONTEXT/`. `FRONTEND.md` has "Routing & SEO" and "Blog" sections.
 
 ## Pending
-- Not verified: the Vercel build with `verify-seo.mjs` in `postbuild` after merge `4107482`. Not run this session.
-- Not verified: `public-apis/public-apis` PR #6789 (pending as of 06/08/2026, not rechecked).
+- Verified 05/10/2026: Vercel deploy of `4107482` succeeded (commit status `success`), so the `postbuild` SEO check passed.
+- Verified 05/10/2026: `public-apis/public-apis` PR #6789 is merged. Other open PRs there (#7589, #7590) belong to other projects.
 - `DOCS/CONTEXT/FRONTEND.md` may not yet describe the 404 page, `verify-seo.mjs`, or the removed `vercel.json` rewrite.
 - Show HN and r/developersIndia drafts exist but are not posted. Space them out, not the same day.
 - Unrelated to SEO (`DOCS/CONTEXT/FUTURE-PLAN.md`): 1-year data retention purge in `ingest.js`, more states, bulk CSV/JSON export, in-memory query caching.
 
 ## Next steps
-1. Confirm the latest Vercel deploy of `main` is green (the SEO check runs in `postbuild`), then check `public-apis` PR #6789.
-2. Bring `DOCS/CONTEXT/FRONTEND.md` up to date with the 404 page and `verify-seo.mjs`.
+1. Bring `DOCS/CONTEXT/FRONTEND.md` up to date with the 404 page and `verify-seo.mjs`.

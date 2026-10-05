@@ -16,4 +16,4 @@ Fetch origin, compare with local `main`, merge, push, and delete the finished SE
 
 ## Notes
 - The merge left a merge commit rather than linear history. Rewriting it would need a force-push.
-- No build or deploy was run, so the post-merge Vercel build is unverified.
+- No build was run locally. Checked afterwards via GitHub: the Vercel deploy of `4107482` succeeded.
