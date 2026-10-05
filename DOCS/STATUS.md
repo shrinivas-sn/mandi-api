@@ -11,8 +11,8 @@ Project: `E:\mandi-api` (repo `shrinivas-sn/mandi-api`, branch `main`). Last upd
 - **Data is stale since 24/09/2026.** data.gov.in's data API returns 502/504 and timeouts for every request since 25/09; checked 05/10 from India: a wrong key gets 403 in 0.5s, the real key gets 504 after 60s, on two datasets. The key is valid.
 - The ingest used to swallow errors and exit 0, so Actions showed green with 0 records saved. Since `e5e7891` it logs the network cause and exits 1, so runs stay red until data.gov.in recovers. It catches up on its own after that.
 - Stale-data UI (frontend only, no backend change): home rate-board notice plus a navbar pill (`DataFreshness.jsx`) shown only when the newest `arrival_date` is more than 3 days old (`STALE_AFTER_DAYS` in `frontend/src/utils.js`). The pill checks one state (Maharashtra).
+- Navbar (`ae88009`) has no width breakpoints: `useFitMode` in `Navbar.jsx` measures what fits and picks a mode (`wide`, `links`, `menu`, `tight`), which sets the pill label (full date, "Prices 24 Sept", date only) and the hamburger. "API Live" moves into the menu when collapsed. Owner checked mobile on the live site: looks good.
 - Mobile: sideways overflow fixed on all 8 routes (probe: 32/32 pass at 320, 390, 768 and 844 landscape). Root cause: `.container` auto margins inside the flex column let `<main>` grow to its widest code line.
-- Verified on a local preview build against the live API, not yet on the Vercel deploy.
 - SEO plan `seo/plan.md` is owner-approved (05/10/2026), including two new pages: an Agmarknet 2.0 API post and per-state "mandi price today" pages (each must show its own live data). The mandi prices dataset page is deferred until bulk export exists.
 - Brief for `/` is drafted at `seo/briefs/home.md`, awaiting owner approval.
 - Last `verify-seo --live`: 8 sitemap URLs, 0 errors, 9 warnings.

@@ -28,6 +28,9 @@ Fetch origin, compare with local `main`, merge, push, and delete the finished SE
 - Added `DataFreshness.jsx` navbar pill, hidden unless data is more than 3 days old.
 - Mobile probe (`E:\dev-recipes\mobile-responsiveness\templates\probe.js`, 8 routes x 4 viewports): sideways overflow went from 10 failing to 32/32 pass. Fixes in `index.css` and `Navbar.jsx`: `.container` width 100%, code-header and inline code wrap, grid columns `minmax(0, 1fr)`, status pills as dots at 721–960px, `.logo-subtitle` display moved out of inline style, 32px minimum on the pill.
 
+- Navbar follow-up (`ae88009`): replaced width breakpoints (960px, 360px) with a measured fit check (`useFitMode`). Hamburger at the right edge, readable date pill instead of a bare dot, "API Live" in the menu when collapsed. Probe: overflow-x 32/32, no tap-target floor failures; narrow-to-wide resize switches back.
+
 ## Notes
+- Lesson: layout tied to text width must not use a screen-width number; measure fit instead. Ask before header redesigns, then run the mobile check once at the end.
 - Git Bash rewrites a `/` route arg into a Windows path. Run the probe with `MSYS_NO_PATHCONV=1` and `NODE_PATH=<frontend>/node_modules`.
 - The mandi Supabase project is on another account; the DB was not queried directly. The owner saw 23/09 as the last date there.
