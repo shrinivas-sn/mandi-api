@@ -20,6 +20,12 @@ function convertDate(dateStr) {
   return dateStr;
 }
 
+// "fetch failed" hides the real network error (timeout, DNS, reset) in err.cause
+function describeError(err) {
+  const cause = err.cause ? ` (cause: ${err.cause.code || err.cause.message || err.cause})` : '';
+  return `${err.message}${cause}`;
+}
+
 async function fetchWithRetry(url, maxRetries = 5) {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
@@ -31,7 +37,7 @@ async function fetchWithRetry(url, maxRetries = 5) {
     } catch (err) {
       if (attempt === maxRetries) throw err;
       const delay = Math.pow(2, attempt) * 1500;
-      console.warn(`Attempt ${attempt} failed for state query: ${err.message}. Retrying in ${delay}ms...`);
+      console.warn(`Attempt ${attempt} failed for state query: ${describeError(err)}. Retrying in ${delay}ms...`);
       await new Promise(resolve => setTimeout(resolve, delay));
     }
   }
@@ -134,8 +140,8 @@ async function runIngestion() {
       summary.push(res);
       if (res.tableMissingError) break;
     } catch (err) {
-      console.error(`❌ Ingestion failed for state "${state}":`, err.message);
-      summary.push({ state, fetchedCount: 0, upsertedCount: 0, error: err.message });
+      console.error(`❌ Ingestion failed for state "${state}":`, describeError(err));
+      summary.push({ state, fetchedCount: 0, upsertedCount: 0, error: describeError(err) });
     }
   }
 
@@ -143,6 +149,13 @@ async function runIngestion() {
   console.log(`INGESTION COMPLETE SUMMARY:`);
   console.log(`========================================`);
   console.table(summary);
+
+  // Fail the run (red in GitHub Actions, email sent) when any state saved nothing
+  const failedStates = summary.filter(s => s.error || s.tableMissingError || !s.upsertedCount);
+  if (failedStates.length > 0) {
+    console.error(`\n❌ ${failedStates.length} of ${SUPPORTED_STATES.length} states saved no records: ${failedStates.map(s => s.state).join(', ')}`);
+    process.exitCode = 1;
+  }
 }
 
 runIngestion();

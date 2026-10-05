@@ -7,7 +7,10 @@ import AiSpecButton from '../components/AiSpecButton';
 import Seo from '../components/Seo';
 import { API_BASE_URL, SITE_URL, SUPPORTED_STATES } from '../config';
 import { ROUTES } from '../routes';
-import { formatIngestionTime } from '../utils';
+import { formatIngestionTime, daysSinceArrival, formatArrivalDate } from '../utils';
+
+// Mandis report with a lag, so only flag data older than this
+const STALE_AFTER_DAYS = 3;
 
 const { title: PAGE_TITLE, description: PAGE_DESCRIPTION } = ROUTES.find((r) => r.path === '/');
 
@@ -84,6 +87,11 @@ export default function HomePage() {
   const latestIngestTime = demoData?.meta?.latest_fetched_at ? formatIngestionTime(demoData.meta.latest_fetched_at) : null;
   const boardRows = demoData?.success ? demoData.data.slice(0, 6) : [];
   const recordCount = demoData?.success ? demoData.meta?.count ?? demoData.data.length : null;
+  const newestArrival = demoData?.success && demoData.data.length > 0
+    ? demoData.data.reduce((max, r) => (r.arrival_date > max ? r.arrival_date : max), '')
+    : null;
+  const staleDays = daysSinceArrival(newestArrival);
+  const isStale = staleDays != null && staleDays > STALE_AFTER_DAYS;
 
   return (
     <div style={{ padding: '3rem 0' }}>
@@ -127,6 +135,24 @@ export default function HomePage() {
           }}>
             <AlertCircle size={15} />
             <span>Waking up the backend server (first load can take ~30s)...</span>
+          </div>
+        )}
+
+        {!loading && isStale && (
+          <div style={{
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '0.6rem',
+            padding: '0.75rem 1.25rem',
+            color: 'var(--status-warn)',
+            fontSize: '0.85rem',
+            borderBottom: '1px solid var(--border-subtle)'
+          }}>
+            <AlertCircle size={15} style={{ flexShrink: 0, marginTop: '0.15rem' }} />
+            <span>
+              These are the latest prices available, from {formatArrivalDate(newestArrival)}.
+              data.gov.in has not published newer prices since then; they will appear here once it does.
+            </span>
           </div>
         )}
 
