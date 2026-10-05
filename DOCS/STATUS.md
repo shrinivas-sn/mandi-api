@@ -1,0 +1,30 @@
+# Project status
+
+Single running log — update in place each session, don't fork new files or append
+without pruning stale lines. This is the primary source `/recap` reads for "where
+things stand."
+
+Project: `E:\mandi-api` (repo `shrinivas-sn/mandi-api`, branch `main`). Last updated 05/10/2026.
+
+## Current state
+- Frontend `frontend/` (React + Vite, prerendered per route for SEO). Backend `backend/`.
+- SEO work is merged to `main`; `redesign-seo-mobile` is deleted (local and remote).
+- Latest SEO commit `413043a`:
+  - one meta description per page
+  - real `dist/404.html`; catch-all rewrite removed from `vercel.json`
+  - og:image / twitter:image on every page
+  - Playground, Docs, Status page titles are `<h1>`
+  - `postbuild` runs `scripts/verify-seo.mjs` (9 errors before, 0 after)
+- Earlier SEO work is in `git log`: robots/sitemap/JSON-LD, SITE_URL fix, `og:site_name`, Organization JSON-LD, `/blog` (3 articles), GSC verification file, mobile layout fixes.
+- Architecture and build docs are in `DOCS/CONTEXT/`. `FRONTEND.md` has "Routing & SEO" and "Blog" sections.
+
+## Pending
+- Not verified: the Vercel build with `verify-seo.mjs` in `postbuild` after merge `4107482`. Not run this session.
+- Not verified: `public-apis/public-apis` PR #6789 (pending as of 06/08/2026, not rechecked).
+- `DOCS/CONTEXT/FRONTEND.md` may not yet describe the 404 page, `verify-seo.mjs`, or the removed `vercel.json` rewrite.
+- Show HN and r/developersIndia drafts exist but are not posted. Space them out, not the same day.
+- Unrelated to SEO (`DOCS/CONTEXT/FUTURE-PLAN.md`): 1-year data retention purge in `ingest.js`, more states, bulk CSV/JSON export, in-memory query caching.
+
+## Next steps
+1. Confirm the latest Vercel deploy of `main` is green (the SEO check runs in `postbuild`), then check `public-apis` PR #6789.
+2. Bring `DOCS/CONTEXT/FRONTEND.md` up to date with the 404 page and `verify-seo.mjs`.

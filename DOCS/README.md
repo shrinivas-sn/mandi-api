@@ -10,9 +10,10 @@ the only format that sorts correctly on disk and in `git log`.
 
 | Date | Summary | Status | Load-bearing | Touches | Continues |
 |---|---|---|---|---|---|
+| 05/10/2026 | Merged SEO branch work into `main`, deleted the branch, added STATUS and DECISIONS | done | yes | `frontend/scripts/`, `frontend/src/components/Seo.jsx`, `DOCS/` | — |
 
-No dated `WORK/` sessions yet for this project. See `CONTEXT/` for architecture,
-backend/frontend design, and build-spec docs.
+See `STATUS.md` for where things stand and `CONTEXT/` for architecture,
+backend/frontend design, build-spec docs, and the decisions log.
 
 **Status** — `active` (in progress), `done` (finished, not touched again), `superseded`
 (a later entry replaced this approach), `abandoned` (started, dropped, note why in the
