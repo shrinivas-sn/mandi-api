@@ -16,15 +16,15 @@ export const ROUTES = [
     path: '/playground',
     navLabel: 'Playground',
     title: 'Interactive API Playground | Mandi Price API',
-    description: 'Test live Mandi Price API requests in your browser — pick a state, market, and crop, inspect the JSON response, plot price trend charts, and copy generated code in curl, JavaScript, Python, or Go.',
+    description: 'Test live Mandi Price API requests in your browser: pick a state, market and crop, see the JSON, chart the price trend, and copy curl, JS, Python or Go.',
     changefreq: 'weekly',
     priority: '0.8'
   },
   {
     path: '/docs',
     navLabel: 'Docs',
-    title: 'API Documentation — Endpoints, Parameters & Examples | Mandi Price API',
-    description: 'Full reference for the Mandi Price API: /v1/states, /v1/commodities, /v1/markets, /v1/prices, and /v1/prices/history — request parameters, response envelopes, and error codes.',
+    title: 'API Docs: Endpoints, Parameters, Examples | Mandi Price API',
+    description: 'Mandi Price API reference: /v1/states, /v1/commodities, /v1/markets, /v1/prices and /v1/prices/history, with parameters, responses and error codes.',
     changefreq: 'weekly',
     priority: '0.8'
   },

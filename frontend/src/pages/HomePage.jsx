@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, RefreshCw, AlertCircle, Clock } from 'lucide-react';
 import CodeSnippet from '../components/CodeSnippet';
 import RegionSelector from '../components/RegionSelector';
@@ -7,6 +7,7 @@ import AiSpecButton from '../components/AiSpecButton';
 import Seo from '../components/Seo';
 import { API_BASE_URL, SITE_URL, SUPPORTED_STATES } from '../config';
 import { ROUTES } from '../routes';
+import { BLOG_POSTS } from '../blogRoutes';
 import { formatIngestionTime, newestArrivalDate, isStaleArrival, formatArrivalDate } from '../utils';
 
 const { title: PAGE_TITLE, description: PAGE_DESCRIPTION } = ROUTES.find((r) => r.path === '/');
@@ -257,6 +258,18 @@ export default function HomePage() {
             </span>
           ))}
         </div>
+      </div>
+
+      {/* Guides: crawlable links from the home page to every blog post */}
+      <div className="glass-card" style={{ padding: '2rem', marginTop: '1.5rem' }}>
+        <h2 style={{ color: 'var(--text-secondary)', marginBottom: '1rem' }}>Guides</h2>
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '0.75rem' }}>
+          {BLOG_POSTS.map(post => (
+            <li key={post.path}>
+              <Link to={post.path} style={{ color: 'var(--accent-gold)', fontWeight: 600 }}>{post.title}</Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

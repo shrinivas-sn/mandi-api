@@ -14,10 +14,11 @@ export const BLOG_INDEX_ROUTE = {
 export const BLOG_POSTS = [
   {
     path: '/blog/agmarknet-api-alternative',
-    title: 'Agmarknet API Alternative: A Free, Keyless Way to Get Mandi Prices in India',
-    description: 'Agmarknet and data.gov.in require a registration key and have inconsistent fields. Here is a free, keyless alternative for daily Indian mandi price data.',
+    title: 'Agmarknet API Key: How to Get Mandi Price Data in India',
+    description: 'Agmarknet mandi prices reach developers through data.gov.in, which needs a free API key. How to get one, or use a keyless API for 5 states.',
     date: '2026-08-06',
-    keywords: ['agmarknet api alternative', 'free agmarknet api', 'mandi price api'],
+    updated: '2026-10-13',
+    keywords: ['agmarknet api key', 'agmarknet api', 'is agmarknet api free', 'mandi price api'],
     changefreq: 'monthly',
     priority: '0.6'
   },
@@ -32,10 +33,10 @@ export const BLOG_POSTS = [
   },
   {
     path: '/blog/data-gov-in-vs-mandi-api',
-    title: 'data.gov.in Mandi Price API vs. a Simpler Alternative: A Side-by-Side Guide',
-    description: 'Comparing the official data.gov.in mandi price API (API key, rate limits, inconsistent fields) against a keyless alternative, with real request/response examples.',
+    title: 'data.gov.in API Key for Mandi Prices vs. a Keyless API',
+    description: 'How the data.gov.in mandi price API works: API key signup, resource ID, pagination and fields, compared side by side with a keyless alternative.',
     date: '2026-08-06',
-    keywords: ['data.gov.in mandi price api key', 'wholesale crop price api india'],
+    keywords: ['data.gov.in api key', 'data gov in agmarknet api', 'data.gov.in mandi price api key'],
     changefreq: 'monthly',
     priority: '0.6'
   }

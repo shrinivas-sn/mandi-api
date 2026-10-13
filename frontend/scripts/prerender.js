@@ -23,10 +23,10 @@ const VIEWPORT = { width: 390, height: 844 };
 const NOT_FOUND_PROBE = '/__not-found__';
 
 function writeSitemap() {
-  const urls = ALL_ROUTES.map(({ path, date, changefreq, priority }) => [
+  const urls = ALL_ROUTES.map(({ path, date, updated, changefreq, priority }) => [
     '  <url>',
     `    <loc>${SITE_URL}${path}</loc>`,
-    date && `    <lastmod>${date}</lastmod>`,
+    (updated || date) && `    <lastmod>${updated || date}</lastmod>`,
     `    <changefreq>${changefreq}</changefreq>`,
     `    <priority>${priority}</priority>`,
     '  </url>'

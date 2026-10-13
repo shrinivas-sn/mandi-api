@@ -24,3 +24,6 @@ Thumbs.db
 # Scratch & Logs
 *.log
 scratch/
+
+# SEO working files (owner-only; never needed to build)
+seo/

@@ -11,7 +11,7 @@ export default function BlogPostLayout({ meta, children }) {
     headline: meta.title,
     description: meta.description,
     datePublished: meta.date,
-    dateModified: meta.date,
+    dateModified: meta.updated || meta.date,
     url: `${SITE_URL}${meta.path}`,
     author: { '@type': 'Organization', name: 'Mandi Price API' },
     publisher: {

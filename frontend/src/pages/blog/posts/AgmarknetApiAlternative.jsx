@@ -13,6 +13,26 @@ export default function AgmarknetApiAlternative() {
         </a>, you've likely run into the same friction every developer in this space hits.
       </p>
 
+      <h2>Do you need an Agmarknet API key?</h2>
+      <p>
+        To pull Agmarknet's daily mandi prices in code, the documented route is data.gov.in's Open Government Data
+        API, and that needs an API key. The key is free:
+      </p>
+      <ol>
+        <li>Create a free account at data.gov.in.</li>
+        <li>Generate an API key from your account dashboard.</li>
+        <li>
+          Call the daily mandi price dataset with your key:{' '}
+          <code>https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=&lt;your-key&gt;&amp;format=json</code>
+        </li>
+      </ol>
+      <p>
+        The full request flow, fields and pagination are in{' '}
+        <Link to="/blog/data-gov-in-vs-mandi-api">how the data.gov.in API key works for mandi prices</Link>. If you
+        only need Maharashtra, Uttar Pradesh, Punjab, Madhya Pradesh or Karnataka, you can skip the key entirely (see
+        below).
+      </p>
+
       <h2>The friction with the official sources</h2>
       <ul>
         <li><strong>A registration key is required.</strong> data.gov.in's OGD API needs a free account and an API key before you can make a single request — an extra step for a quick prototype or hackathon project.</li>
@@ -56,7 +76,8 @@ export default function AgmarknetApiAlternative() {
       </p>
       <p>
         Full endpoint reference is in the <Link to="/docs">docs</Link>, or try live requests in the{' '}
-        <Link to="/playground">interactive playground</Link> before writing any code.
+        <Link to="/playground">interactive playground</Link> before writing any code. For what the data itself
+        contains, read <Link to="/blog/apmc-mandi-price-data-guide">the APMC mandi price data guide</Link>.
       </p>
     </>
   );
