@@ -16,7 +16,7 @@ Project/worktree: `E:\mandi-api` (repo `shrinivas-sn/mandi-api`, branch `main`).
 - SEO plan `seo/plan.md` is owner-approved (05/10/2026). The Agmarknet 2.0 API post is built; per-state "mandi price today" pages remain planned (each must show its own live data). The mandi prices dataset page is deferred until bulk export exists.
 - Brief for `/` is drafted at `seo/briefs/home.md`, awaiting owner approval.
 - SEO pass 13/10 (see `WORK/2026-10-13`): Agmarknet post retitled for "agmarknet api key", home "Guides" links, meta trimmed. `verify-seo --dist`: 0 errors, 3 warnings (home title/description kept on purpose: best CTR).
-- SEO content 14/10 (see `WORK/2026-10-14`): five new posts cover Agmarknet 2.0, Python, Agmarknet versus e-NAM, data freshness and voice agents. Eight posts total; internal links and article Open Graph metadata added. Production build prerenders 13 routes; five new routes passed 320/390px checks. Extracted examples passed syntax and live API checks; voice handler passed 16 edge cases.
+- SEO content 14/10 (see `WORK/2026-10-14`): five new posts cover Agmarknet 2.0, Python, Agmarknet versus e-NAM, data freshness and voice agents. Eight posts total; internal links and article Open Graph metadata added. Production build prerenders 13 routes; five new routes passed 320/390px checks. Extracted examples passed syntax and live API checks; voice handler passed 16 edge cases. Deployed site passed live SEO verification (0 errors, 3 known warnings).
 - Search Console (13/10): 3 of 8 pages indexed; 5 "Discovered - currently not indexed". No conflict with shrinivasn.com (all canonicals self-referencing).
 
 ## Pending
@@ -33,4 +33,4 @@ Project/worktree: `E:\mandi-api` (repo `shrinivas-sn/mandi-api`, branch `main`).
 ## Next up (start here)
 1. Decide how the daily ingest runs from India (self-hosted runner or other); until then run `npm run ingest` in `backend/` by hand.
 2. Re-export Search Console Performance ~27/10 into `seo/data/` and compare with `seo/data/perf-2026-10-13/`.
-3. Confirm the five new posts on the deployed site, then monitor indexing; prepare the planned per-state live-data pages after the home brief decision.
+3. Monitor indexing of the new posts in Search Console; prepare the planned per-state live-data pages after the home brief decision.
