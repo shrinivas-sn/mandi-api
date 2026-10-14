@@ -68,6 +68,8 @@ export default function ApmcMandiPriceDataGuide() {
       </p>
       <p>
         Full endpoint reference: <Link to="/docs">docs</Link>. Try it live: <Link to="/playground">playground</Link>.
+        For the difference between reported prices and electronic trading, see{' '}
+        <Link to="/blog/agmarknet-vs-enam">Agmarknet versus e-NAM</Link>.
       </p>
     </>
   );

@@ -10,6 +10,7 @@ the only format that sorts correctly on disk and in `git log`.
 
 | Date | Summary | Status | Load-bearing | Touches | Continues |
 |---|---|---|---|---|---|
+| 14/10/2026 | Added five researched SEO posts, linked them across the blog, tested mobile routes and code examples | active | yes | `frontend/src/blogRoutes.js`, `frontend/src/pages/blog/`, `frontend/src/components/Seo.jsx`, `DOCS/` | 13/10/2026 |
 | 13/10/2026 | SEO pass from Search Console data (Agmarknet post retitled, home links to posts, meta trimmed); portfolio canonical check; catch-up ingest from India after GitHub runners lost access to data.gov.in | active | yes | `frontend/src/`, `frontend/scripts/prerender.js`, `seo/`, `.gitignore` | 05/10/2026 |
 | 05/10/2026 | Merged SEO branch work into `main`, added STATUS and DECISIONS; found ingest silently failing since 25/09 (data.gov.in outage), made it fail loudly, added stale-data UI, fixed mobile overflow | active | yes | `frontend/scripts/`, `frontend/src/`, `backend/scripts/ingest.js`, `seo/`, `DOCS/` | — |
 

@@ -24,7 +24,7 @@ export default function BlogPostLayout({ meta, children }) {
 
   return (
     <article style={{ maxWidth: '760px', margin: '0 auto', padding: '2rem 0 4rem' }}>
-      <Seo title={meta.title} description={meta.description} path={meta.path} structuredData={structuredData} />
+      <Seo title={meta.title} description={meta.description} path={meta.path} structuredData={structuredData} type="article" />
 
       <Link to="/blog" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
         <ArrowLeft size={14} /> Back to Blog

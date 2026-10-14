@@ -78,6 +78,7 @@ export default function AgmarknetApiAlternative() {
         Full endpoint reference is in the <Link to="/docs">docs</Link>, or try live requests in the{' '}
         <Link to="/playground">interactive playground</Link> before writing any code. For what the data itself
         contains, read <Link to="/blog/apmc-mandi-price-data-guide">the APMC mandi price data guide</Link>.
+        For the newer government portal, see <Link to="/blog/agmarknet-2-api">what Agmarknet 2.0 offers developers</Link>.
       </p>
     </>
   );

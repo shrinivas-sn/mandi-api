@@ -11,7 +11,7 @@ export default function BlogIndexPage() {
 
       <h1 style={{ fontSize: 'clamp(1.9rem, 4vw, 2.6rem)', marginBottom: '0.6rem' }}>Blog</h1>
       <p style={{ color: 'var(--text-secondary)', marginBottom: '2.5rem' }}>
-        Guides on Indian mandi/APMC price data, Agmarknet, and data.gov.in — for developers building with agricultural market data.
+        Developer guides to Indian mandi price APIs, Agmarknet, e-NAM, data freshness and practical integrations.
       </p>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>

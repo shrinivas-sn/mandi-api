@@ -6,7 +6,7 @@ export const BLOG_INDEX_ROUTE = {
   path: '/blog',
   navLabel: 'Blog',
   title: 'Blog — Mandi & APMC Market Data Guides | Mandi Price API',
-  description: 'Guides on Indian mandi/APMC price data, Agmarknet, and data.gov.in — for developers building with agricultural market data.',
+  description: 'Developer guides to Indian mandi price APIs, Agmarknet, e-NAM, data freshness, Python examples and farmer voice agents.',
   changefreq: 'weekly',
   priority: '0.7'
 };
@@ -37,6 +37,46 @@ export const BLOG_POSTS = [
     description: 'How the data.gov.in mandi price API works: API key signup, resource ID, pagination and fields, compared side by side with a keyless alternative.',
     date: '2026-08-06',
     keywords: ['data.gov.in api key', 'data gov in agmarknet api', 'data.gov.in mandi price api key'],
+    changefreq: 'monthly',
+    priority: '0.6'
+  },
+  {
+    path: '/blog/agmarknet-2-api',
+    title: 'Agmarknet 2.0 API: What Developers Can Use',
+    description: 'What Agmarknet 2.0 changed, what public API documentation exists, and the supported ways to request Indian mandi prices.',
+    date: '2026-10-14',
+    changefreq: 'monthly',
+    priority: '0.6'
+  },
+  {
+    path: '/blog/mandi-price-api-python',
+    title: 'Mandi Price API with Python: A Working Example',
+    description: 'Fetch Indian mandi prices with Python, check arrival dates, and handle timeouts, empty results, multiple markets and stale data.',
+    date: '2026-10-14',
+    changefreq: 'monthly',
+    priority: '0.6'
+  },
+  {
+    path: '/blog/agmarknet-vs-enam',
+    title: 'Agmarknet vs e-NAM: Mandi Price Data Explained',
+    description: 'Understand the difference between Agmarknet price reporting and e-NAM trading, and which data source this API actually uses.',
+    date: '2026-10-14',
+    changefreq: 'monthly',
+    priority: '0.6'
+  },
+  {
+    path: '/blog/mandi-price-data-freshness',
+    title: 'Why Mandi Price API Data Can Be Out of Date',
+    description: 'A real ingestion incident shows why API uptime is different from price freshness and how to check each market report date.',
+    date: '2026-10-14',
+    changefreq: 'monthly',
+    priority: '0.6'
+  },
+  {
+    path: '/blog/mandi-price-voice-agent',
+    title: 'Mandi Price API for Farmer Voice Agents',
+    description: 'Add a dated mandi-price lookup tool to a farmer voice agent, with checks for ambiguous markets, stale records and API failures.',
+    date: '2026-10-14',
     changefreq: 'monthly',
     priority: '0.6'
   }

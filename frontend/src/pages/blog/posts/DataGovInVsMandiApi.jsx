@@ -86,6 +86,8 @@ export default function DataGovInVsMandiApi() {
         See the full breakdown of what mandi/APMC data actually contains in{' '}
         <Link to="/blog/apmc-mandi-price-data-guide">APMC Mandi Price Data: A Developer's Guide</Link>, or jump
         straight to the <Link to="/docs">docs</Link> and <Link to="/playground">playground</Link>.
+        For the upgraded portal and its API question, read the{' '}
+        <Link to="/blog/agmarknet-2-api">Agmarknet 2.0 developer guide</Link>.
       </p>
     </>
   );
