@@ -10,6 +10,8 @@ import MandiPriceApiPython from './posts/MandiPriceApiPython';
 import AgmarknetVsEnam from './posts/AgmarknetVsEnam';
 import MandiPriceDataFreshness from './posts/MandiPriceDataFreshness';
 import MandiPriceVoiceAgent from './posts/MandiPriceVoiceAgent';
+import MandiPricesVsMsp from './posts/MandiPricesVsMsp';
+import CommodityPriceVolatility from './posts/CommodityPriceVolatility';
 
 const POST_COMPONENTS = {
   'agmarknet-api-alternative': AgmarknetApiAlternative,
@@ -19,7 +21,9 @@ const POST_COMPONENTS = {
   'mandi-price-api-python': MandiPriceApiPython,
   'agmarknet-vs-enam': AgmarknetVsEnam,
   'mandi-price-data-freshness': MandiPriceDataFreshness,
-  'mandi-price-voice-agent': MandiPriceVoiceAgent
+  'mandi-price-voice-agent': MandiPriceVoiceAgent,
+  'mandi-prices-vs-msp-benchmarks': MandiPricesVsMsp,
+  'commodity-price-volatility-tracker': CommodityPriceVolatility
 };
 
 export default function BlogPostPage() {

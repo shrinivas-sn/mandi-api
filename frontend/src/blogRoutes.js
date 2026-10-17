@@ -79,5 +79,23 @@ export const BLOG_POSTS = [
     date: '2026-10-14',
     changefreq: 'monthly',
     priority: '0.6'
+  },
+  {
+    path: '/blog/mandi-prices-vs-msp-benchmarks',
+    title: 'Mandi Spot Prices vs. MSP: Tracking Crop Price Parity',
+    description: 'How to compare daily APMC mandi modal prices against statutory Minimum Support Price (MSP) benchmarks to detect market distress and price parity with an API.',
+    date: '2026-10-17',
+    keywords: ['msp vs mandi price', 'minimum support price api', 'mandi price benchmark', 'agri distress price calculation', 'apmc spot price vs msp'],
+    changefreq: 'monthly',
+    priority: '0.6'
+  },
+  {
+    path: '/blog/commodity-price-volatility-tracker',
+    title: 'Analyzing Mandi Price Volatility: Onion & Tomato Spikes',
+    description: 'Track 7-day modal price spikes, harvest arrival surges, and festive demand shocks for sensitive vegetables across major Indian mandis programmatically.',
+    date: '2026-10-17',
+    keywords: ['mandi price volatility', 'onion price api', 'tomato mandi price tracker', 'vegetable price surge api', 'apmc arrival volume analysis'],
+    changefreq: 'monthly',
+    priority: '0.6'
   }
 ];

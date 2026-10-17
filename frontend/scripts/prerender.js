@@ -55,6 +55,19 @@ async function prerenderRoute(browser, base, route, outFile) {
     // any still-visible loading spinner rather than a blind fixed delay.
     await page.waitForFunction(() => !document.querySelector('.spin'), { timeout: 10000 }).catch(() => {});
 
+    // Ensure react-helmet-async commits route-specific metadata to <head>
+    if (route !== NOT_FOUND_PROBE) {
+      const expectedUrl = `${SITE_URL}${route === '/' ? '/' : route}`;
+      await page.waitForFunction(
+        (url) => {
+          const canonical = document.querySelector('link[rel="canonical"]');
+          return canonical && canonical.getAttribute('href') === url;
+        },
+        { timeout: 5000 },
+        expectedUrl
+      ).catch(() => {});
+    }
+
     const html = await page.content();
     mkdirSync(dirname(outFile), { recursive: true });
     writeFileSync(outFile, html);
@@ -101,15 +114,24 @@ async function main() {
       // prerendered snapshot, and the build still succeeds.
       // A failed route gets no file, and verify-seo then fails the build
       // naming it. The 404 page goes last so no route loads it.
+      const nonHomeRoutes = ALL_ROUTES.filter((r) => r.path !== '/');
+      const homeRoute = ALL_ROUTES.find((r) => r.path === '/');
       const targets = [
-        ...ALL_ROUTES.map((r) => [r.path, r.path === '/' ? join(distDir, 'index.html') : join(distDir, r.path.slice(1), 'index.html')]),
+        ...nonHomeRoutes.map((r) => [r.path, join(distDir, r.path.slice(1), 'index.html')]),
+        [homeRoute.path, join(distDir, 'index.html')],
         [NOT_FOUND_PROBE, join(distDir, '404.html')]
       ];
       for (const [route, outFile] of targets) {
         try {
           await prerenderRoute(browser, base, route, outFile);
         } catch (err) {
-          console.error(`Failed to prerender ${route}:`, err.message);
+          console.warn(`Retrying prerender for ${route} after failure:`, err.message);
+          try {
+            await new Promise((r) => setTimeout(r, 1000));
+            await prerenderRoute(browser, base, route, outFile);
+          } catch (retryErr) {
+            console.error(`Failed to prerender ${route}:`, retryErr.message);
+          }
         }
       }
     } finally {
